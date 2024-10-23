@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Layout</title>
+    <style>
+        body {
+            background-color: #2f3d46;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .queue {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .box {
+            width: 60px;
+            height: 40px;
+            margin: 0 5px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Text color for visibility */
+        }
+
+        #box1 { background-color: red; }
+        #box2 { background-color: green; }
+        #box3 { background-color: blue; }
+        #box4 { background-color: yellow; }
+        #box5 { background-color: pink; }
+
+        #box1 {
+            top: -40px;
+            position: relative;
+        }
+
+        #box5 {
+            bottom: -40px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Queue with Boxes -->
+        <div class="queue">
+            <div id="box1" class="box box1"></div>
+            <div id="box2" class="box box2"></div>
+            <div id="box3" class="box box3"></div>
+            <div id="box4" class="box box4"></div>
+            <div id="box5" class="box box5"></div>
+        </div>
+    </div>
+
+    <script>
+        let boxArray = [
+            { id: "box1", className: "box1" }, 
+            { id: "box2", className: "box2" }, 
+            { id: "box3", className: "box3" }, 
+            { id: "box4", className: "box4" }, 
+            { id: "box5", className: "box5" }
+        ];
+
+        const colors = ["red", "green", "blue", "yellow", "pink"]; // Original color order
+        let currentColorIndex = colors.length - 1; // Start from the last color
+
+        // Function to move the last box to the first position every 3 seconds
+        setInterval(() => {
+            // Remove the last element and move it to the front of the array
+            let lastBox = boxArray.pop();
+            boxArray.unshift(lastBox);
+
+            // Apply the new order to the DOM elements
+            for (let i = 0; i < boxArray.length; i++) {
+                const box = document.getElementById(boxArray[i].id);
+                box.className = "box " + boxArray[i].className;
+
+                // Change color based on the reversed index
+                box.style.backgroundColor = colors[currentColorIndex];
+                currentColorIndex = (currentColorIndex - 1 + colors.length) % colors.length; // Cycle through colors in reverse
+            }
+        }, 3000);
+    </script>
+
+</body>
+</html>
